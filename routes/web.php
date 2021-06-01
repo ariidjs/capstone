@@ -20,10 +20,10 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
     $router->post('penerima/insert', 'PenerimaController@insertPenerima');
     $router->put('penerima/update/{id}', 'PenerimaController@updateStatusPenerima');
     $router->get('penerima/berhak/{status}', 'PenerimaController@showPenerimaByStatus');
-  
+    $router->get('tracking/{status}', 'TrackingController@showTrackingByNik');
     // 
-  
+
     // $router->delete('authors/{id}', ['uses' => 'AuthorController@delete']);
-  
-    
-  });
+
+
+});
