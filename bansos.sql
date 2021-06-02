@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 31, 2021 at 04:19 PM
+-- Generation Time: Jun 02, 2021 at 05:40 PM
 -- Server version: 10.1.31-MariaDB
 -- PHP Version: 7.2.3
 
@@ -29,12 +29,28 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `detail_tracking` (
-  `id` int(11) NOT NULL,
-  `id_track` varchar(6) NOT NULL,
-  `jam` time NOT NULL,
-  `tanggal` date NOT NULL,
-  `status` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `id_track` bigint(20) UNSIGNED NOT NULL,
+  `lokasi` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `waktu` datetime NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `detail_tracking`
+--
+
+INSERT INTO `detail_tracking` (`id_track`, `lokasi`, `waktu`, `created_at`, `updated_at`) VALUES
+(5, 'Padang', '2021-07-09 13:07:01', '2021-06-02 14:28:57', '2021-06-02 14:28:57'),
+(5, 'Padang', '2021-07-09 13:07:01', '2021-06-02 14:30:51', '2021-06-02 14:30:51'),
+(5, 'Padang', '2021-07-09 13:07:01', '2021-06-02 14:30:54', '2021-06-02 14:30:54'),
+(6, 'Padang', '2021-07-09 13:07:01', '2021-06-02 14:53:28', '2021-06-02 14:53:28'),
+(6, 'Padang', '2021-07-09 13:07:01', '2021-06-02 14:53:31', '2021-06-02 14:53:31'),
+(7, 'Padang', '2021-07-09 13:07:01', '2021-06-02 15:12:30', '2021-06-02 15:12:30'),
+(7, 'Padang', '2021-07-09 13:07:01', '2021-06-02 15:12:31', '2021-06-02 15:12:31'),
+(7, 'Padang', '2021-07-09 13:07:01', '2021-06-02 15:12:31', '2021-06-02 15:12:31'),
+(7, 'Padang', '2021-07-09 13:07:01', '2021-06-02 15:12:32', '2021-06-02 15:12:32'),
+(7, 'Padang', '2021-07-09 13:07:01', '2021-06-02 15:12:33', '2021-06-02 15:12:33');
 
 -- --------------------------------------------------------
 
@@ -53,7 +69,9 @@ CREATE TABLE `migrations` (
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(1, '2021_05_30_091218_create_penerima_table', 1);
+(1, '2021_05_30_091218_create_penerima_table', 1),
+(4, '2021_06_02_130342_create_tracking_table', 2),
+(5, '2021_06_02_130455_create_detail_tracking_table', 2);
 
 -- --------------------------------------------------------
 
@@ -62,32 +80,26 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 --
 
 CREATE TABLE `penerima` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` varchar(6) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nik` bigint(20) NOT NULL,
   `nama` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `alamat` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `gaji` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `pekerjaan` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tanggungan` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `umur` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `updated_at` date NOT NULL,
-  `created_at` date NOT NULL
+  `alamat` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `no_hp` bigint(20) NOT NULL,
+  `gaji` bigint(20) NOT NULL,
+  `pekerjaan` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tanggungan` mediumint(9) NOT NULL,
+  `umur` int(4) NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `created_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `penerima`
 --
 
-INSERT INTO `penerima` (`id`, `nama`, `alamat`, `gaji`, `pekerjaan`, `tanggungan`, `umur`, `status`, `updated_at`, `created_at`) VALUES
-('CF1YH9', 'anjel', 'padang', '6.0', 'mahasiswa', '10', '22', '1', '2021-05-31', '2021-05-30'),
-('3VC4SP', 'anjel', 'padang', '6.0', 'mahasiswa', '10', '22', '0', '2021-05-30', '2021-05-30'),
-('028N4T', 'anjel', 'padang', '6.0', 'mahasiswa', '10', '22', '1', '2021-05-31', '2021-05-30'),
-('62X19I', 'anjel', 'padang', '6.0', 'mahasiswa', '10', '22', '0', '2021-05-30', '2021-05-30'),
-('LTO495', 'anjel', 'padang', '6.0', 'mahasiswa', '10', '22', '0', '2021-05-30', '2021-05-30'),
-('WVMJ98', 'anjel', 'padang', '6.0', 'mahasiswa', '10', '22', '0', '2021-05-30', '2021-05-30'),
-('ZTK5N3', 'anjel', 'padang', '6.0', 'mahasiswa', '10', '22', '0', '2021-05-30', '2021-05-30'),
-('M2Y0BV', 'anjel', 'padang', '6.0', 'mahasiswa', '10', '22', '0', '2021-05-30', '2021-05-30'),
-('6HU3EQ', 'anjel', 'padang', '6.0', 'mahasiswa', '10', '22', '0', '2021-05-31', '2021-05-31');
+INSERT INTO `penerima` (`id`, `nik`, `nama`, `alamat`, `no_hp`, `gaji`, `pekerjaan`, `tanggungan`, `umur`, `status`, `updated_at`, `created_at`) VALUES
+('2RTGN4', 1371091102980032, 'anjel', 'gaduik', 81265411456, 6, 'mahasiswa', 10, 22, 0, '2021-06-02 12:45:58', '2021-06-02 12:45:58');
 
 -- --------------------------------------------------------
 
@@ -96,26 +108,37 @@ INSERT INTO `penerima` (`id`, `nama`, `alamat`, `gaji`, `pekerjaan`, `tanggungan
 --
 
 CREATE TABLE `tracking` (
-  `id` varchar(6) NOT NULL,
-  `alamat` varchar(500) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `id` int(10) UNSIGNED NOT NULL,
+  `nik_penerima` bigint(20) NOT NULL,
+  `alamat` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `created_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `tracking`
+--
+
+INSERT INTO `tracking` (`id`, `nik_penerima`, `alamat`, `status`, `updated_at`, `created_at`) VALUES
+(6, 1371091102980032, 'Padang', 'Selesai', '2021-06-02 15:07:02', '2021-06-02 14:53:02'),
+(7, 1371091102980032, 'Padang', '1', '2021-06-02 15:11:53', '2021-06-02 15:11:53');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `detail_tracking`
---
-ALTER TABLE `detail_tracking`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_track` (`id_track`);
-
---
 -- Indexes for table `migrations`
 --
 ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `penerima`
+--
+ALTER TABLE `penerima`
+  ADD PRIMARY KEY (`nik`);
 
 --
 -- Indexes for table `tracking`
@@ -128,26 +151,16 @@ ALTER TABLE `tracking`
 --
 
 --
--- AUTO_INCREMENT for table `detail_tracking`
---
-ALTER TABLE `detail_tracking`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- Constraints for dumped tables
+-- AUTO_INCREMENT for table `tracking`
 --
-
---
--- Constraints for table `detail_tracking`
---
-ALTER TABLE `detail_tracking`
-  ADD CONSTRAINT `detail_tracking_ibfk_1` FOREIGN KEY (`id_track`) REFERENCES `tracking` (`id`);
+ALTER TABLE `tracking`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
