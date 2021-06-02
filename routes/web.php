@@ -17,6 +17,7 @@ $router->get('/', function () use ($router) {
 
 $router->group(['prefix' => 'api/v1'], function () use ($router) {
     $router->get('penerima',  'PenerimaController@showAllPenerima');
+    $router->get('penerima/{id}',  'PenerimaController@showPenerimaById');
     $router->post('penerima/insert', 'PenerimaController@insertPenerima');
     $router->put('penerima/update/{id}', 'PenerimaController@updateStatusPenerima');
     $router->get('penerima/berhak/{status}', 'PenerimaController@showPenerimaByStatus');
