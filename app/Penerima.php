@@ -20,8 +20,13 @@ class Penerima extends Model
      * @var array
      */
     protected $fillable = [
-        'id','nama', 'alamat','gaji','pekerjaan','tanggungan','umur','status'
+        'id','nik','nama', 'alamat','no_hp','gaji','pekerjaan','tanggungan','umur','status'
     ];
+
+    public function penerimatracking()
+    {
+        return $this->hasMany('App\Tracking');
+    }
 
     /**
      * The attributes excluded from the model's JSON form.

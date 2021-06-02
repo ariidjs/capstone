@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Tracking;
+use App\DetailTracking;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -16,63 +17,78 @@ class TrackingController extends Controller
 
     public function showAllTracking()
     {
-        return response()->json(Tracking::all());
+        $tracking = Tracking::all();
+        return response()->json([
+            'success' => true,
+            'data' => $tracking
+        ], 200);
     }
 
-    public function showTrackingByStatus($status)
+    public function showTrackingByNik($nik)
     {
-        $tracking = Tracking::where('status', $status);
-        return response()->json($tracking->get(), 200);
+        $tracking = Tracking::where('nik_penerima', $nik);
+        return response()->json([
+            'success' => true,
+            'data' => $tracking->get()
+        ], 200);
     }
 
-    public function insertTracking(Request $request)
+    public function showDetailTracking($id)
     {
-        $length = 6;
-        $id_detail_tracking = substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 1, $length);
-        $validator = Validator::make($request->all(), [
-            'id_track' => 'required',
-            'jam' => 'required',
-            'tanggal' => 'required',
-            'status' => 'required'
-        ]);
+        $tracking = DetailTracking::where('id_track', $id);
+        return response()->json([
+            'success' => true,
+            'data' => $tracking->get()
+        ], 200);
+    }
 
-        if ($validator->fails()) {
-            return response()->json(
-                [
-                    'success' => false,
-                    'message' => $validator->errors()->all()
-                ],
-                401
-            );
-        } else {
-            $trackings = Tracking::create([
-                'id' => $id_detail_tracking,
-                'jam'   => $request->input('jam'),
-                'tanggal'   => $request->input('tanggal'),
-                'status'   => $request->input('status')
+    public function updateTrack($id,Request $request)
+    {
+        $tracking = Tracking::where('id',$id)->first();
+
+        if($tracking->status != "Selesai") {
+            $detailtrack = DetailTracking::create([
+                'lokasi' => $request->lokasi,
+                'waktu' => $request->waktu,
+                'id_track' => $tracking->id
             ]);
 
-            if ($trackings) {
+            if ($detailtrack) {
                 return response()->json([
                     'success' => true,
-                    'message' => 'Data berhasil disimpan!',
-                    'data' => $trackings
+                    'message' => 'Data track berhasil diupdate!',
+                    'data' => $detailtrack
                 ], 201);
             } else {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Data Gagal Disimpan!',
+                    'message' => 'Data track gagal diupdate!',
                 ], 400);
             }
+        }else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Paket sudah diantar sesuai alamat!',
+            ], 400);
         }
+        
     }
 
-    public function updateStatusTracking($id, Request $request)
+    public function finishTrack($nik,$id,Request $request)
     {
-        $tracking = Tracking::findOrFail($id);
-        $tracking->status = $request->status;
-        $tracking->save();
+        $tracking = Tracking::where('nik_penerima',$nik)->first();
+        $tracking = Tracking::where('id',$id)->first();
 
+        if($tracking->status != "Selesai") {
+            $tracking->status = $request->status;
+            $tracking->save();
+
+        }else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Anda sudah menyelesaikan paket ini!',
+            ], 400);
+        }
 
         if ($tracking) {
             return response()->json([
@@ -86,11 +102,32 @@ class TrackingController extends Controller
                 'message' => 'Status gagal diubah!',
             ], 400);
         }
+        
     }
 
-    // public function delete($id)
-    // {
-    //     Author::findOrFail($id)->delete();
-    //     return response('Deleted Successfully', 200);
-    // }
+    public function deleteTrackById($id)
+    {
+        $tracking = Tracking::where('id',$id)->first();
+        if($tracking != null){
+            $tracking->delete();
+        }else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data Tracking tidak ada!',
+            ], 400);
+        }
+
+        if ($tracking) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Data Tracking dihapus!',
+                'data' => $tracking
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data Tracking gagal dihapus!',
+            ], 404);
+        }
+    }
 }

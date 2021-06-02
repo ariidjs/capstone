@@ -15,13 +15,15 @@ class CreatePenerimaTable extends Migration
     {
         Schema::create('penerima', function (Blueprint $table) {
             $table->string('id');
+            $table->integer('nik')->unique();
             $table->string('nama');
             $table->string('alamat');
-            $table->string('gaji');
+            $table->integer('no_hp')->unique();
+            $table->integer('gaji');
             $table->string('pekerjaan');
-            $table->string('tanggungan');
-            $table->string('umur');
-            $table->string('status');
+            $table->integer('tanggungan');
+            $table->integer('umur');
+            $table->boolean('status');
         });
     }
 

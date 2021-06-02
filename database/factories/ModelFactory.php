@@ -19,12 +19,23 @@ use Faker\Generator as Faker;
 $factory->define(Penerima::class, function (Faker $faker) {
     return [
         'id' =>$faker->id,
+        'nik' =>$faker->nik,
         'nama' => $faker->name,
         'alamat' => $faker->alamat,
+        'no_hp' => $faker->no_hp,
         'gaji' => $faker->gaji,
         'pekerjaan' => $faker->pekerjaan,
         'tanggungan' => $faker->tanggungan,
         'umur' => $faker->umur,
         'status' => $faker->status
+    ];
+});
+
+$factory->define(Tracking::class, function (Faker $faker) {
+    return [
+        'id' =>$faker->id,
+        'nik_penerima' =>$faker->nik_penerima,
+        'alamat' => $faker->alamat,
+        'status' => $faker->status,
     ];
 });

@@ -8,28 +8,24 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Lumen\Auth\Authorizable;
 
-class Tracking extends Model
+class DetailTracking extends Model
 {
 
 
-    protected $table = 'tracking';
+    protected $table = 'detail_tracking';
+    public $incrementing = false;
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'id', 'nik_penerima', 'alamat', 'status'
+        'id_track', 'lokasi', 'waktu'
     ];
 
-    public function trackings()
+    public function tracking()
     {
-        return $this->hasMany('App\DetailTracking');
-    }
-
-    public function penerima()
-    {
-        return $this->belongsTo('\App\Penerima');
+        $this->belongsTo('\App\Tracking');
     }
 
     /**
