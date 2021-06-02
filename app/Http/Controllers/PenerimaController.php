@@ -19,6 +19,12 @@ class PenerimaController extends Controller
         return response()->json(Penerima::all());
     }
 
+    public function showPenerimaById($id)
+    {
+        $penerima = Penerima::where('id', $id);
+        return response()->json($penerima->get(), 200);
+    }
+
     public function showPenerimaByStatus($status)
     {
         $penerima = Penerima::where('status', $status);
