@@ -148,7 +148,7 @@ class PenerimaController extends Controller
                 'status' => $request->status,
                 'nik_penerima' => $penerima->nik
             ]);
-        }else if{
+        }else if($penerima->status == 0){
             return response()->json([
                 'success' => false,
                 'message' => 'Nik yang terdaftar tidak berhak!',
