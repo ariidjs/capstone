@@ -142,16 +142,21 @@ class PenerimaController extends Controller
     
         $penerima = Penerima::where('nik',$nik)->first();
 
-        if($penerima->status == 0) {
+        if($penerima->status == 1) {
             $tracking = Tracking::create([
                 'alamat' => $request->alamat,
                 'status' => $request->status,
                 'nik_penerima' => $penerima->nik
             ]);
+        }else if{
+            return response()->json([
+                'success' => false,
+                'message' => 'Nik yang terdaftar tidak berhak!',
+            ], 400);
         }else {
             return response()->json([
                 'success' => false,
-                'message' => 'Data track sudah diinputk!',
+                'message' => 'Data track sudah diinputkan!',
             ], 400);
         }
         
