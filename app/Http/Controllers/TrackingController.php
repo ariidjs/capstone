@@ -42,11 +42,11 @@ class TrackingController extends Controller
         ], 200);
     }
 
-    public function updateTrack($id,Request $request)
+    public function updateTrack($id, Request $request)
     {
-        $tracking = Tracking::where('id',$id)->first();
+        $tracking = Tracking::where('id', $id)->first();
 
-        if($tracking->status != "Selesai") {
+        if ($tracking->status != "Selesai") {
             $detailtrack = DetailTracking::create([
                 'lokasi' => $request->lokasi,
                 'waktu' => $request->waktu,
@@ -65,25 +65,23 @@ class TrackingController extends Controller
                     'message' => 'Data track gagal diupdate!',
                 ], 400);
             }
-        }else {
+        } else {
             return response()->json([
                 'success' => false,
                 'message' => 'Paket sudah diantar sesuai alamat!',
             ], 400);
         }
-        
     }
 
-    public function finishTrack($nik,$id,Request $request)
+    public function finishTrack($nik, $id, Request $request)
     {
-        $tracking = Tracking::where('nik_penerima',$nik)->first();
-        $tracking = Tracking::where('id',$id)->first();
+        $tracking = Tracking::where('nik_penerima', $nik)->first();
+        $tracking = Tracking::where('id', $id)->first();
 
-        if($tracking->status != "Selesai") {
+        if ($tracking->status != "Selesai") {
             $tracking->status = $request->status;
             $tracking->save();
-
-        }else {
+        } else {
             return response()->json([
                 'success' => false,
                 'message' => 'Anda sudah menyelesaikan paket ini!',
@@ -102,15 +100,40 @@ class TrackingController extends Controller
                 'message' => 'Status gagal diubah!',
             ], 400);
         }
-        
     }
 
     public function deleteTrackById($id)
     {
-        $tracking = Tracking::where('id',$id)->first();
-        if($tracking != null){
+        $tracking = Tracking::where('id', $id)->first();
+        if ($tracking != null) {
             $tracking->delete();
-        }else {
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data Tracking tidak ada!',
+            ], 400);
+        }
+
+        if ($tracking) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Data Tracking dihapus!',
+                'data' => $tracking
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data Tracking gagal dihapus!',
+            ], 404);
+        }
+    }
+
+    public function deleteDetailTrackById($id)
+    {
+        $tracking = DetailTracking::where('id_track', $id)->first();
+        if ($tracking != null) {
+            $tracking->delete();
+        } else {
             return response()->json([
                 'success' => false,
                 'message' => 'Data Tracking tidak ada!',

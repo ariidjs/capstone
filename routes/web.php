@@ -27,6 +27,7 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
     $router->get('tracking/{nik}/getTrack', 'TrackingController@showTrackingByNik');
     $router->get('tracking/{id}/getDetailTrack', 'TrackingController@showDetailTracking');
     $router->delete('tracking/{id}/deleteTrack', 'TrackingController@deleteTrackById');
+    $router->delete('tracking/{id}/deleteDetailTrack', 'TrackingController@deleteDetailTracking');
 
     // 
     // $router->delete('authors/{id}', ['uses' => 'AuthorController@delete']);
